@@ -102,7 +102,7 @@ const tasks = [
 
   // Elements UI
 
-  let lastSelectedTheme = "default";
+  let lastSelectedTheme = localStorage.getItem("app_theme") || "default";
   const listContainer = document.querySelector(
     ".tasks_list-section",
     ".list-group"
@@ -116,6 +116,7 @@ const tasks = [
   renderAllTasks(objOfTasks);
 
   //Events
+  setTheme(lastSelectedTheme);
   form.addEventListener("submit", onFormSubmitHandler);
   listContainer.addEventListener("click", onDeletehandler);
 
@@ -225,6 +226,7 @@ const tasks = [
     } else {
       setTheme(selectedTheme);
       lastSelectedTheme = selectedTheme;
+      localStorage.setItem("app_theme", selectedTheme);
     }
   }
 
