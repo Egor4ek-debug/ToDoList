@@ -102,6 +102,7 @@ const tasks = [
 
   // Elements UI
 
+  let lastSelectedTheme = "default";
   const listContainer = document.querySelector(
     ".tasks_list-section",
     ".list-group"
@@ -109,6 +110,8 @@ const tasks = [
   const form = document.forms["addTask"];
   const inputTitle = form.elements["title"];
   const inputBody = form.elements["body"];
+  const themeSelect = document.getElementById("themeSelect");
+  themeSelect.addEventListener("change", onThemeSelectHandler);
 
   renderAllTasks(objOfTasks);
 
@@ -209,5 +212,26 @@ const tasks = [
       const confirmed = deleteTask(id);
       deleteTaskFromHtml(confirmed, parent);
     }
+  }
+
+  function onThemeSelectHandler(e) {
+    const selectedTheme = themeSelect.value;
+    const isConfirmed = confirm(
+      `You sure that want change theme ${selectedTheme} ?`
+    );
+    if (!isConfirmed) {
+      themeSelect.value = lastSelectedTheme;
+      return;
+    } else {
+      setTheme(selectedTheme);
+      lastSelectedTheme = selectedTheme;
+    }
+  }
+
+  function setTheme(name) {
+    const selectedThemeObj = themes[name];
+    Object.entries(selectedThemeObj).forEach(([key, value]) => {
+      document.documentElement.style.setProperty(key, value);
+    });
   }
 })(tasks);
